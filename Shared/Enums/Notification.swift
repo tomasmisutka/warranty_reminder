@@ -10,10 +10,10 @@ import SwiftUI
 
 enum Notification: String, Equatable, CaseIterable
 {
-    case day_before = "DAY BEFORE"
-    case week_before = "WEEK BEFORE"
-    case two_weeks_before = "2 WEEKS BEFORE"
-    case month_before = "MONTH BEFORE"
+    case day_before = "1 day before"
+    case week_before = "7 days before"
+    case two_weeks_before = "14 days before"
+    case month_before = "30 days before"
     
     var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
 }

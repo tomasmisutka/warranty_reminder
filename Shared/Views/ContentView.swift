@@ -16,48 +16,46 @@ struct ContentView: View {
         animation: .default)
     private var products: FetchedResults<Product>
 
-    var body: some View {
-        NavigationView {
-            List {
-                ForEach(products) { item in
-                    NavigationLink {
-                        Text("Item at \(item.warrantyUntil!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.warrantyUntil!, formatter: itemFormatter)
+    var body: some View
+    {
+        NavigationView
+        {
+            List
+            {
+                ForEach(products)
+                { product in
+                    HStack
+                    {
+                        Spacer()
+                        VStack
+                        {
+                            Text(product.name ?? "name")
+                        }
+                        Spacer()
                     }
+//                    NavigationLink {
+//                        Text("Item at \(item.warrantyUntil!, formatter: itemFormatter)")
+//                    } label: {
+//                        Text(item.warrantyUntil!, formatter: itemFormatter)
+//                    }
                 }
                 .onDelete(perform: deleteItems)
             }
-            .toolbar {
+            .toolbar
+            {
 #if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarTrailing)
+                {
                     EditButton()
                 }
 #endif
-                ToolbarItem {
-                    NavigationLink(destination: AddProductView()) {
-                        Image(systemName: "plus")
-                    }
-//                    Button(action: addItem) {
-//                        Label("Add Item", systemImage: "plus")
-//                    }
+                ToolbarItem
+                {
+                    NavigationLink(destination: AddProductView(context: viewContext))
+                    { Image(systemName: "plus") }
                 }
             }
-        }
-        .navigationTitle("Dashboard")
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Product(context: viewContext)
-            newItem.warrantyUntil = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            .navigationTitle("WR - Dashboard")
         }
     }
 
