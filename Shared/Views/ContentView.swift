@@ -26,6 +26,13 @@ struct ContentView: View {
                 { product in
                     HStack
                     {
+                        if let image = UIImage(data: product.image!)
+                        {
+                            Image(uiImage: image)
+                                .resizable()
+                                .cornerRadius(10)
+                                .frame(width: 50, height: 50, alignment: .center)
+                        }
                         Spacer()
                         VStack
                         {
@@ -33,6 +40,11 @@ struct ContentView: View {
                         }
                         Spacer()
                     }
+                    
+                    //todo
+                    //change content from above to separete view
+                    //and wrap it with navigation link from below
+                    
 //                    NavigationLink {
 //                        Text("Item at \(item.warrantyUntil!, formatter: itemFormatter)")
 //                    } label: {
