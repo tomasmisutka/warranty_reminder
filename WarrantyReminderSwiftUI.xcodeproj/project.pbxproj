@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		177DC1B1278360FF000721BC /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddProductView.swift */; };
+		177DC1B2278360FF000721BC /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddProductView.swift */; };
+		177DC1B52783625C000721BC /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B42783625C000721BC /* Category.swift */; };
+		177DC1B62783625C000721BC /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B42783625C000721BC /* Category.swift */; };
+		177DC1B827836334000721BC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B727836334000721BC /* Notification.swift */; };
+		177DC1B927836334000721BC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B727836334000721BC /* Notification.swift */; };
+		177DC1BC278363B7000721BC /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1BB278363B7000721BC /* ImagePicker.swift */; };
+		177DC1BD278363B7000721BC /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1BB278363B7000721BC /* ImagePicker.swift */; };
 		17C69C69278336BA00A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 17C69C56278336B500A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld */; };
 		17C69C6A278336BA00A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 17C69C56278336B500A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld */; };
 		17C69C6B278336BA00A0A466 /* WarrantyReminderSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C69C58278336B500A0A466 /* WarrantyReminderSwiftUIApp.swift */; };
@@ -20,6 +28,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		177DC1AE278339B1000721BC /* WarrantyReminderSwiftUI--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "WarrantyReminderSwiftUI--iOS--Info.plist"; sourceTree = "<group>"; };
+		177DC1B0278360FF000721BC /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
+		177DC1B42783625C000721BC /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		177DC1B727836334000721BC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		177DC1BB278363B7000721BC /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		17C69C57278336B500A0A466 /* Shared.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shared.xcdatamodel; sourceTree = "<group>"; };
 		17C69C58278336B500A0A466 /* WarrantyReminderSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyReminderSwiftUIApp.swift; sourceTree = "<group>"; };
 		17C69C59278336B500A0A466 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,9 +61,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		177DC1AF278360D5000721BC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				17C69C59278336B500A0A466 /* ContentView.swift */,
+				177DC1B0278360FF000721BC /* AddProductView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		177DC1B327836242000721BC /* Structures */ = {
+			isa = PBXGroup;
+			children = (
+				177DC1B42783625C000721BC /* Category.swift */,
+				177DC1B727836334000721BC /* Notification.swift */,
+			);
+			path = Structures;
+			sourceTree = "<group>";
+		};
+		177DC1BA27836385000721BC /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				177DC1BB278363B7000721BC /* ImagePicker.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
 		17C69C50278336B500A0A466 = {
 			isa = PBXGroup;
 			children = (
+				177DC1AE278339B1000721BC /* WarrantyReminderSwiftUI--iOS--Info.plist */,
 				17C69C55278336B500A0A466 /* Shared */,
 				17C69C67278336BA00A0A466 /* macOS */,
 				17C69C61278336BA00A0A466 /* Products */,
@@ -60,8 +100,10 @@
 		17C69C55278336B500A0A466 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				177DC1BA27836385000721BC /* Widgets */,
+				177DC1B327836242000721BC /* Structures */,
+				177DC1AF278360D5000721BC /* Views */,
 				17C69C58278336B500A0A466 /* WarrantyReminderSwiftUIApp.swift */,
-				17C69C59278336B500A0A466 /* ContentView.swift */,
 				17C69C5A278336B500A0A466 /* Persistence.swift */,
 				17C69C5B278336BA00A0A466 /* Assets.xcassets */,
 				17C69C56278336B500A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld */,
@@ -187,7 +229,11 @@
 				17C69C6B278336BA00A0A466 /* WarrantyReminderSwiftUIApp.swift in Sources */,
 				17C69C6F278336BA00A0A466 /* Persistence.swift in Sources */,
 				17C69C69278336BA00A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld in Sources */,
+				177DC1B827836334000721BC /* Notification.swift in Sources */,
 				17C69C6D278336BA00A0A466 /* ContentView.swift in Sources */,
+				177DC1BC278363B7000721BC /* ImagePicker.swift in Sources */,
+				177DC1B1278360FF000721BC /* AddProductView.swift in Sources */,
+				177DC1B52783625C000721BC /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,7 +244,11 @@
 				17C69C6C278336BA00A0A466 /* WarrantyReminderSwiftUIApp.swift in Sources */,
 				17C69C70278336BA00A0A466 /* Persistence.swift in Sources */,
 				17C69C6A278336BA00A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld in Sources */,
+				177DC1B927836334000721BC /* Notification.swift in Sources */,
 				17C69C6E278336BA00A0A466 /* ContentView.swift in Sources */,
+				177DC1BD278363B7000721BC /* ImagePicker.swift in Sources */,
+				177DC1B2278360FF000721BC /* AddProductView.swift in Sources */,
+				177DC1B62783625C000721BC /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,9 +376,9 @@
 				DEVELOPMENT_TEAM = 7A94Q7649X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WarrantyReminderSwiftUI--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -356,9 +406,9 @@
 				DEVELOPMENT_TEAM = 7A94Q7649X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WarrantyReminderSwiftUI--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
