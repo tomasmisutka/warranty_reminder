@@ -4,8 +4,8 @@
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="notificationBefore" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="state" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
+        <attribute name="notificationBefore" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="warrantyUntil" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <elements>

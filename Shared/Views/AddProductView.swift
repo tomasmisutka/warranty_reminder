@@ -11,8 +11,7 @@ import CoreData
 struct AddProductView: View
 {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    private var viewContext: NSManagedObjectContext
+    @Environment(\.managedObjectContext) private var viewContext
     
     @State private var productName: String = ""
     @State private var selectedCategory: ProductCategory = .home
@@ -22,11 +21,6 @@ struct AddProductView: View
     @State private var showImagePicker = false
     @State private var uploadedImage: Image?
     @State private var inputImage: UIImage?
-    
-    init(context: NSManagedObjectContext)
-    {
-        self.viewContext = context
-    }
     
     var body: some View
     {
@@ -126,7 +120,7 @@ struct AddProductView: View
                 Spacer()
             }.padding(.horizontal, 15)
             .navigationBarHidden(true)
-            .onChange(of: inputImage) { _ in loadImage() }
+            .onChange(of: inputImage) { _ in loadImageFromGalery() }
             .sheet(isPresented: $showImagePicker)
             {
                 ImagePicker(image: $inputImage)
@@ -136,41 +130,38 @@ struct AddProductView: View
     
     private func saveProduct()
     {
-        withAnimation
-        {
-            let imageData = inputImage?.jpegData(compressionQuality: 0.8)
-            let product = Product(context: viewContext)
+        let imageData = inputImage?.jpegData(compressionQuality: 0.8)
+        let product = Product(context: viewContext)
             
-            product.name = productName
-            product.category = selectedCategory.rawValue
-            product.warrantyUntil = warrantyDate
-            product.notificationBefore = Transformer.transformDaysFromString(notification: notifyMe)
-            product.image = imageData
-            product.state = 0 //0 - active, 1 - expire soon, 2 - inactive
+        product.name = productName
+        product.category = selectedCategory.rawValue
+        product.warrantyUntil = warrantyDate
+        product.notificationBefore = Transformer.transformDaysFromString(notification: notifyMe)
+        product.image = imageData
+        product.state = 0 //0 - active, 1 - expire soon, 2 - inactive
             
-            //saving logic
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-            //move back to dashboard
-            self.presentationMode.wrappedValue.dismiss()
+        //saving logic
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+        //move back to dashboard
+        self.presentationMode.wrappedValue.dismiss()
     }
     
-    private func loadImage()
+    private func loadImageFromGalery()
     {
         guard let inputImage = inputImage else { return }
         uploadedImage = Image(uiImage: inputImage)
     }
 }
 
-//struct AddProductView_Previews: PreviewProvider
-//{
-//    static var previews: some View
-//    {
-//        AddProductView(context: viewContext)
-//    }
-//}
+struct AddProductView_Previews: PreviewProvider
+{
+    static var previews: some View
+    {
+        AddProductView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
+}

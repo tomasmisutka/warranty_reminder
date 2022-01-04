@@ -17,7 +17,7 @@ struct PersistenceController {
             let newProduct = Product(context: viewContext)
             newProduct.warrantyUntil = Date()
             newProduct.category = "SPORT"
-            newProduct.state = 0 //0 - active, 1 - expire soon, 2 - inactive
+            newProduct.status = 0 //0 - active, 1 - expire soon, 2 - expired
             newProduct.name = "Testing product"
 //            newProduct.image =
         }

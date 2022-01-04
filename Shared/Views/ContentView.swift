@@ -24,32 +24,8 @@ struct ContentView: View {
             {
                 ForEach(products)
                 { product in
-                    HStack
-                    {
-                        if let image = UIImage(data: product.image!)
-                        {
-                            Image(uiImage: image)
-                                .resizable()
-                                .cornerRadius(10)
-                                .frame(width: 50, height: 50, alignment: .center)
-                        }
-                        Spacer()
-                        VStack
-                        {
-                            Text(product.name ?? "name")
-                        }
-                        Spacer()
-                    }
-                    
-                    //todo
-                    //change content from above to separete view
-                    //and wrap it with navigation link from below
-                    
-//                    NavigationLink {
-//                        Text("Item at \(item.warrantyUntil!, formatter: itemFormatter)")
-//                    } label: {
-//                        Text(item.warrantyUntil!, formatter: itemFormatter)
-//                    }
+                    NavigationLink { ProductDetailView(currentProduct: product) }
+                    label: { ProductItem(product: product) }
                 }
                 .onDelete(perform: deleteItems)
             }
@@ -57,27 +33,29 @@ struct ContentView: View {
             {
 #if os(iOS)
                 ToolbarItem(placement: .navigationBarTrailing)
-                {
-                    EditButton()
-                }
+                { EditButton() }
 #endif
                 ToolbarItem
                 {
-                    NavigationLink(destination: AddProductView(context: viewContext))
+                    NavigationLink(destination: AddProductView())
                     { Image(systemName: "plus") }
                 }
+                ToolbarItem(placement: .navigationBarLeading)
+                { AppIcon() }
             }
-            .navigationTitle("WR - Dashboard")
         }
     }
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
+    private func deleteItems(offsets: IndexSet)
+    {
+        withAnimation
+        {
             offsets.map { products[$0] }.forEach(viewContext.delete)
 
             do {
                 try viewContext.save()
-            } catch {
+            } catch
+            {
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
@@ -85,15 +63,10 @@ struct ContentView: View {
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
+struct ContentView_Previews: PreviewProvider
+{
+    static var previews: some View
+    {
         ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
