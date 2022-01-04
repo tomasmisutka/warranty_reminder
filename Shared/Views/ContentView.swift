@@ -8,12 +8,16 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct ContentView: View
+{
     @Environment(\.managedObjectContext) private var viewContext
+    
+    @State private var test: Bool = true
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Product.warrantyUntil, ascending: true)],
         animation: .default)
+    
     private var products: FetchedResults<Product>
 
     var body: some View
@@ -25,7 +29,7 @@ struct ContentView: View {
                 ForEach(products)
                 { product in
                     NavigationLink { ProductDetailView(currentProduct: product) }
-                    label: { ProductItem(product: product) }
+                    label: { ProductItem(currentProduct: product) }
                 }
                 .onDelete(perform: deleteItems)
             }
@@ -51,7 +55,6 @@ struct ContentView: View {
         withAnimation
         {
             offsets.map { products[$0] }.forEach(viewContext.delete)
-
             do {
                 try viewContext.save()
             } catch

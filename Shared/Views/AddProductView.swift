@@ -136,9 +136,9 @@ struct AddProductView: View
         product.name = productName
         product.category = selectedCategory.rawValue
         product.warrantyUntil = warrantyDate
-        product.notificationBefore = Transformer.transformDaysFromString(notification: notifyMe)
+        product.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
         product.image = imageData
-        product.state = 0 //0 - active, 1 - expire soon, 2 - inactive
+        product.status = 0 //0 - active, 1 - expire soon, 2 - inactive
             
         //saving logic
         do {

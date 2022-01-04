@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ProductItem: View
 {
-    @State private var currentProduct: Product
+    @State private var product: Product
     
-    init(product: Product)
+    init(currentProduct: Product)
     {
-        self.currentProduct = product
+        self.product = currentProduct
     }
         
     var body: some View
@@ -22,7 +22,7 @@ struct ProductItem: View
         HStack
         {
             //image loaded from persistence
-            if let image = UIImage(data: currentProduct.image!)
+            if let image = UIImage(data: product.image!)
             {
                 Image(uiImage: image)
                     .resizable()
@@ -33,9 +33,9 @@ struct ProductItem: View
             VStack(spacing: 5)
             {
                 //Category and product name information
-                Text(currentProduct.name ?? "product name")
+                Text(product.name ?? "product name")
                     .fontWeight(.bold)
-                Text(currentProduct.category ?? "category")
+                Text(product.category ?? "category")
                     .foregroundColor(.gray)
                     .font(.system(size: 12))
                 //Expiration information
@@ -45,10 +45,10 @@ struct ProductItem: View
                         .fontWeight(.bold)
                         .padding(.trailing, 5)
                         .font(.system(size: 15))
-                    Text(self.getFormattedDateAsString(warrantyDate: currentProduct.warrantyUntil ?? Date()))
+                    Text(self.getFormattedDateAsString(warrantyDate: product.warrantyUntil ?? Date()))
                         .fontWeight(.bold)
                         .font(.system(size: 14))
-                        .foregroundColor(.red)
+                        .foregroundColor(.blue)
                     Spacer()
                 }
                 //Remaining information
@@ -58,7 +58,8 @@ struct ProductItem: View
                         .fontWeight(.bold)
                         .padding(.trailing, 2)
                         .font(.system(size: 15))
-                    let remainingDays = getNumberOfDaysBetweenDates(warrantyUntil: currentProduct.warrantyUntil ?? Date())
+                    //counting how many days are remaining to warranty end
+                    let remainingDays = self.getNumberOfDaysBetweenDates(warrantyUntil: product.warrantyUntil ?? Date())
                     Text(getFormattedDayString(days: remainingDays))
                         .fontWeight(remainingDays == 0 ? .bold : .regular)
                         .font(.system(size: 14))
@@ -67,9 +68,8 @@ struct ProductItem: View
                 }
             }
             Spacer()
-            let productStatus: Int = Int(currentProduct.status)
-            StatusIndicator(status: productStatus)
-            //todo here comes status
+            let productStatus: Int = Int(product.status)
+            StatusIndicator(status: productStatus)          
         }
     }
     
@@ -81,6 +81,14 @@ struct ProductItem: View
         return dateFormatter.string(from: warrantyDate)
     }
     
+    //this method return formated string according to how many days are remaining
+    private func getFormattedDayString(days: Int) -> String
+    {
+        if(days == 1) { return "\(days) day" }
+        else if(days > 1) { return "\(days) days" }
+        return "expired"
+    }
+    
     //this method counts number of days between current date and date, when warranty expires on
     private func getNumberOfDaysBetweenDates(warrantyUntil: Date) -> Int
     {
@@ -90,16 +98,20 @@ struct ProductItem: View
         let warrantyDate = calendar.startOfDay(for: warrantyUntil)
         
         let components = calendar.dateComponents([.day], from: dateNow, to: warrantyDate)
-        if(components.day ?? 0 <= 0) { return 0 }
+        
+        self.setStatusForProduct(remainingDays: components.day ?? 0)
+        
+        if(components.day ?? 0 <= 0)
+        { return 0 }
         return components.day ?? 0 //return zero if counting fails
     }
     
-    //this method return formated string according to how many days are remaining
-    private func getFormattedDayString(days: Int) -> String
+    //setting status according to counted remaining days
+    private func setStatusForProduct(remainingDays: Int)
     {
-        if(days == 1) { return "\(days) day" }
-        else if(days > 1) { return "\(days) days" }
-        return "expired"
+        if(remainingDays > 30) { product.status = 0 } //warranty active
+        else if(remainingDays <= 30 && remainingDays > 0) { product.status = 1 } //waranty expires soon
+        else { product.status = 2 } //warranty expired
     }
     
 }
