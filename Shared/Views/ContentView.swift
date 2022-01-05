@@ -12,7 +12,7 @@ struct ContentView: View
 {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @State private var test: Bool = true
+//    @State private var test: Bool = true
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Product.warrantyUntil, ascending: true)],
@@ -41,7 +41,7 @@ struct ContentView: View
 #endif
                 ToolbarItem
                 {
-                    NavigationLink(destination: AddProductView())
+                    NavigationLink(destination: AddProductView(currenctProduct: nil))
                     { Image(systemName: "plus") }
                 }
                 ToolbarItem(placement: .navigationBarLeading)

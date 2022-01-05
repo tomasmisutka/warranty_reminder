@@ -45,7 +45,7 @@ struct ProductItem: View
                         .fontWeight(.bold)
                         .padding(.trailing, 5)
                         .font(.system(size: 15))
-                    Text(self.getFormattedDateAsString(warrantyDate: product.warrantyUntil ?? Date()))
+                    Text(Utils.getFormattedDateAsString(warrantyDate: product.warrantyUntil ?? Date()))
                         .fontWeight(.bold)
                         .font(.system(size: 14))
                         .foregroundColor(.blue)
@@ -71,14 +71,6 @@ struct ProductItem: View
             let productStatus: Int = Int(product.status)
             StatusIndicator(status: productStatus)          
         }
-    }
-    
-    //this method return formated date as String
-    private func getFormattedDateAsString(warrantyDate: Date) -> String
-    {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, yyyy"
-        return dateFormatter.string(from: warrantyDate)
     }
     
     //this method return formated string according to how many days are remaining

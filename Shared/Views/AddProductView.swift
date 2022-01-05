@@ -13,14 +13,40 @@ struct AddProductView: View
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.managedObjectContext) private var viewContext
     
-    @State private var productName: String = ""
-    @State private var selectedCategory: ProductCategory = .home
-    @State private var warrantyDate = Date()
-    @State private var notifyMe: Notification = .day_before
-    
+    @State private var productName: String
+    @State private var selectedCategory: ProductCategory
+    @State private var warrantyDate: Date
+    @State private var notifyMe: Notification
     @State private var showImagePicker = false
     @State private var uploadedImage: Image?
     @State private var inputImage: UIImage?
+    private var product: Product?
+    private var isEditingMode: Bool
+    
+    init(currenctProduct: Product?, isEditingMode: Bool = false)
+    {
+        //create on image string name
+        let noImageName = "camera.viewfinder"
+        
+        //asigning values from constructor
+        self.product = currenctProduct
+        self.isEditingMode = isEditingMode
+        
+        //setting data according to mode (adding or editing)
+        self._productName = State(wrappedValue: isEditingMode ? (product?.name ?? "editing product") : "")
+        
+        self._selectedCategory = State(wrappedValue: isEditingMode ? (Utils.categoryFromString(valueString: product?.category ?? "HOME")) : .home)
+        
+        self._warrantyDate = State(wrappedValue: isEditingMode ? (product?.warrantyUntil ?? Date()) : Date())
+        
+        self._notifyMe = State(wrappedValue: isEditingMode ? (Utils.notificationFromString(valueInt: Int(product?.notificationBefore ?? 1))) : .day_before)
+        
+        self._uploadedImage = State(wrappedValue: isEditingMode ? Utils.getImageFromBinary(binaryValue: product?.image! ?? nil): Image(systemName: noImageName))
+        
+        //initiate inputImage to default image
+        let uiImage = UIImage(systemName: noImageName)
+        self._inputImage = State(wrappedValue: uiImage)
+    }
     
     var body: some View
     {
@@ -40,10 +66,10 @@ struct AddProductView: View
                         Text("Back")
                     }
                     Spacer()
-                    Button("Save", action: saveProduct)
+                    Button(isEditingMode ? "Update" : "Save", action: saveProduct)
                 }
                 //Text describing screen view
-                Text("Add product")
+                Text("\(isEditingMode ? "Edit" : "Add") product")
                     .font(.title)
                     .fontWeight(.heavy)
                 //Textfield with Text to enter product name
@@ -92,28 +118,19 @@ struct AddProductView: View
                 HStack
                 {
                     Spacer()
-                    Text("upload image")
+                    Text("\(isEditingMode ? "update" : "upload") image")
                         .foregroundColor(.blue)
                         .onTapGesture { showImagePicker = true }
                     Spacer()
                 }
-                //displaying image loaded from galery
+                //displaying default image or loaded from galery
                 HStack
                 {
                     Spacer()
-                    ZStack
-                    {
-                        if (uploadedImage == nil)
-                        {
-                            Image("no_image")
-                                .resizable()
-                                .frame(width: 320, height: 300, alignment: .center)
-                        }
-                        uploadedImage?
-                            .resizable()
-                            .cornerRadius(15)
-                            .frame(width: 320, height: 300, alignment: .center)
-                    }
+                    uploadedImage?
+                        .resizable()
+                        .cornerRadius(15)
+                        .frame(width: 300, height: 300, alignment: .center)
                     Spacer()
                 }
                 //final spacer to move everything up
@@ -131,23 +148,24 @@ struct AddProductView: View
     private func saveProduct()
     {
         let imageData = inputImage?.jpegData(compressionQuality: 0.8)
-        let product = Product(context: viewContext)
+        let currentProduct = self.product == nil ? Product(context: viewContext) : self.product
             
-        product.name = productName
-        product.category = selectedCategory.rawValue
-        product.warrantyUntil = warrantyDate
-        product.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
-        product.image = imageData
-        product.status = 0 //0 - active, 1 - expire soon, 2 - inactive
+        currentProduct?.name = productName
+        currentProduct?.category = selectedCategory.rawValue
+        currentProduct?.warrantyUntil = warrantyDate
+        currentProduct?.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
+        currentProduct?.image = imageData
+        currentProduct?.status = 0 //0 - active, 1 - expire soon, 2 - inactive
             
         //saving logic
-        do {
+        do
+        {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
-        //move back to dashboard
+        //move back to previous view
         self.presentationMode.wrappedValue.dismiss()
     }
     
@@ -158,10 +176,10 @@ struct AddProductView: View
     }
 }
 
-struct AddProductView_Previews: PreviewProvider
-{
-    static var previews: some View
-    {
-        AddProductView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//struct AddProductView_Previews: PreviewProvider
+//{
+//    static var previews: some View
+//    {
+//        AddProductView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//    }
+//}

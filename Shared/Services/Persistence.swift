@@ -7,13 +7,16 @@
 
 import CoreData
 
-struct PersistenceController {
+struct PersistenceController
+{
     static let shared = PersistenceController()
 
-    static var preview: PersistenceController = {
+    static var preview: PersistenceController =
+    {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
+        for _ in 0..<10
+        {
             let newProduct = Product(context: viewContext)
             newProduct.warrantyUntil = Date()
             newProduct.category = "SPORT"
@@ -21,9 +24,11 @@ struct PersistenceController {
             newProduct.name = "Testing product"
 //            newProduct.image =
         }
-        do {
+        do
+        {
             try viewContext.save()
-        } catch {
+        } catch
+        {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
@@ -32,9 +37,11 @@ struct PersistenceController {
 
     let container: NSPersistentContainer
 
-    init(inMemory: Bool = false) {
+    init(inMemory: Bool = false)
+    {
         container = NSPersistentContainer(name: "WarrantyReminderSwiftUI")
-        if inMemory {
+        if inMemory
+        {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
         container.viewContext.automaticallyMergesChangesFromParent = true

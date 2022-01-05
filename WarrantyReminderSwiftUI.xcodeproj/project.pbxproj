@@ -15,6 +15,8 @@
 		174EC11B27846C0500FFD130 /* ProductItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174EC11927846C0500FFD130 /* ProductItem.swift */; };
 		174EC11D278485BA00FFD130 /* StatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174EC11C278485BA00FFD130 /* StatusIndicator.swift */; };
 		174EC11E278485BA00FFD130 /* StatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174EC11C278485BA00FFD130 /* StatusIndicator.swift */; };
+		1761AA732786029900A53D8B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1761AA722786029900A53D8B /* Utils.swift */; };
+		1761AA742786029900A53D8B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1761AA722786029900A53D8B /* Utils.swift */; };
 		177DC1B1278360FF000721BC /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddProductView.swift */; };
 		177DC1B2278360FF000721BC /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddProductView.swift */; };
 		177DC1B52783625C000721BC /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B42783625C000721BC /* Category.swift */; };
@@ -42,6 +44,7 @@
 		174EC1162784698900FFD130 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		174EC11927846C0500FFD130 /* ProductItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductItem.swift; sourceTree = "<group>"; };
 		174EC11C278485BA00FFD130 /* StatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIndicator.swift; sourceTree = "<group>"; };
+		1761AA722786029900A53D8B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		177DC1AE278339B1000721BC /* WarrantyReminderSwiftUI--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "WarrantyReminderSwiftUI--iOS--Info.plist"; sourceTree = "<group>"; };
 		177DC1B0278360FF000721BC /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
 		177DC1B42783625C000721BC /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -118,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				177DC1C02783A2F4000721BC /* Transformer.swift */,
+				1761AA722786029900A53D8B /* Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -265,6 +269,7 @@
 				174EC11A27846C0500FFD130 /* ProductItem.swift in Sources */,
 				174EC1142784565500FFD130 /* AppIcon.swift in Sources */,
 				17C69C6B278336BA00A0A466 /* WarrantyReminderSwiftUIApp.swift in Sources */,
+				1761AA732786029900A53D8B /* Utils.swift in Sources */,
 				174EC1172784698900FFD130 /* ProductDetailView.swift in Sources */,
 				174EC11D278485BA00FFD130 /* StatusIndicator.swift in Sources */,
 				177DC1C12783A2F4000721BC /* Transformer.swift in Sources */,
@@ -285,6 +290,7 @@
 				174EC11B27846C0500FFD130 /* ProductItem.swift in Sources */,
 				174EC1152784565500FFD130 /* AppIcon.swift in Sources */,
 				17C69C6C278336BA00A0A466 /* WarrantyReminderSwiftUIApp.swift in Sources */,
+				1761AA742786029900A53D8B /* Utils.swift in Sources */,
 				174EC1182784698900FFD130 /* ProductDetailView.swift in Sources */,
 				174EC11E278485BA00FFD130 /* StatusIndicator.swift in Sources */,
 				177DC1C22783A2F4000721BC /* Transformer.swift in Sources */,
