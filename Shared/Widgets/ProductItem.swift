@@ -59,7 +59,7 @@ struct ProductItem: View
                         .padding(.trailing, 2)
                         .font(.system(size: 15))
                     //counting how many days are remaining to warranty end
-                    let remainingDays = self.getNumberOfDaysBetweenDates(warrantyUntil: product.warrantyUntil ?? Date())
+                    let remainingDays = Utils.getNumberOfDaysBetweenDates(currentProduct: product)
                     Text(getFormattedDayString(days: remainingDays))
                         .fontWeight(remainingDays == 0 ? .bold : .regular)
                         .font(.system(size: 14))
@@ -79,31 +79,6 @@ struct ProductItem: View
         if(days == 1) { return "\(days) day" }
         else if(days > 1) { return "\(days) days" }
         return "expired"
-    }
-    
-    //this method counts number of days between current date and date, when warranty expires on
-    private func getNumberOfDaysBetweenDates(warrantyUntil: Date) -> Int
-    {
-        let calendar = Calendar.current
-        
-        let dateNow = calendar.startOfDay(for: Date())
-        let warrantyDate = calendar.startOfDay(for: warrantyUntil)
-        
-        let components = calendar.dateComponents([.day], from: dateNow, to: warrantyDate)
-        
-        self.setStatusForProduct(remainingDays: components.day ?? 0)
-        
-        if(components.day ?? 0 <= 0)
-        { return 0 }
-        return components.day ?? 0 //return zero if counting fails
-    }
-    
-    //setting status according to counted remaining days
-    private func setStatusForProduct(remainingDays: Int)
-    {
-        if(remainingDays > 30) { product.status = 0 } //warranty active
-        else if(remainingDays <= 30 && remainingDays > 0) { product.status = 1 } //waranty expires soon
-        else { product.status = 2 } //warranty expired
     }
     
 }

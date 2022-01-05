@@ -18,6 +18,31 @@ struct Utils
         return dateFormatter.string(from: warrantyDate)
     }
     
+    //this method counts number of days between current date and date, when warranty expires on
+    static func getNumberOfDaysBetweenDates(currentProduct: Product, verifyStatus: Bool = true) -> Int
+    {
+        let calendar = Calendar.current
+        
+        let dateNow = calendar.startOfDay(for: Date())
+        let warrantyDate = calendar.startOfDay(for: currentProduct.warrantyUntil ?? Date())
+        
+        let components = calendar.dateComponents([.day], from: dateNow, to: warrantyDate)
+        
+        if(verifyStatus) { setStatusForProduct(remainingDays: components.day ?? 0, product: currentProduct) }
+        
+        if(components.day ?? 0 <= 0)
+        { return 0 }
+        return components.day ?? 0 //return zero if counting fails
+    }
+    
+    //setting status according to counted remaining days
+    private static func setStatusForProduct(remainingDays: Int, product: Product)
+    {
+        if(remainingDays > 30) { product.status = 0 } //warranty active
+        else if(remainingDays <= 30 && remainingDays > 0) { product.status = 1 } //waranty expires soon
+        else { product.status = 2 } //warranty expired
+    }
+    
     static func categoryFromString(valueString: String) -> ProductCategory
     {
         let correctCategory = ProductCategory(rawValue: valueString)

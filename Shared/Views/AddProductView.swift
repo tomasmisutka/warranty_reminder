@@ -130,7 +130,7 @@ struct AddProductView: View
                     uploadedImage?
                         .resizable()
                         .cornerRadius(15)
-                        .frame(width: 300, height: 300, alignment: .center)
+                        .frame(width: 325, height: 325, alignment: .center)
                     Spacer()
                 }
                 //final spacer to move everything up
