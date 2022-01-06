@@ -88,7 +88,7 @@ struct ProductDetailView: View
             {
                 ToolbarItem(placement: .navigationBarTrailing)
                 {
-                    NavigationLink(destination: AddProductView(currenctProduct: product, isEditingMode: true))
+                    NavigationLink(destination: AddOrEditProductView(currenctProduct: product, isEditingMode: true))
                     {
                         Image(systemName: "slider.horizontal.3").resizable().frame(width: 20, height: 20)
                     }

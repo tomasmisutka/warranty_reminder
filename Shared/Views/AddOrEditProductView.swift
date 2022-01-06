@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct AddProductView: View
+struct AddOrEditProductView: View
 {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.managedObjectContext) private var viewContext
@@ -44,8 +44,7 @@ struct AddProductView: View
         self._uploadedImage = State(wrappedValue: isEditingMode ? Utils.getImageFromBinary(binaryValue: product?.image! ?? nil): Image(systemName: noImageName))
         
         //initiate inputImage to default image
-        let uiImage = UIImage(systemName: noImageName)
-        self._inputImage = State(wrappedValue: uiImage)
+        self._inputImage = State(wrappedValue: isEditingMode ? UIImage(data: product!.image!) : UIImage(systemName: noImageName))
     }
     
     var body: some View
@@ -149,24 +148,44 @@ struct AddProductView: View
     {
         let imageData = inputImage?.jpegData(compressionQuality: 0.8)
         let currentProduct = self.product == nil ? Product(context: viewContext) : self.product
-            
-        currentProduct?.name = productName
-        currentProduct?.category = selectedCategory.rawValue
-        currentProduct?.warrantyUntil = warrantyDate
-        currentProduct?.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
-        currentProduct?.image = imageData
-        currentProduct?.status = 0 //0 - active, 1 - expire soon, 2 - inactive
-            
-        //saving logic
-        do
+        
+        if isEditingMode
         {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            viewContext.performAndWait
+            {
+                currentProduct!.name = productName
+                currentProduct!.category = selectedCategory.rawValue
+                currentProduct!.warrantyUntil = warrantyDate
+                currentProduct!.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
+                currentProduct!.image = imageData
+                _ = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
+                //0 - active, 1 - expire soon, 2 - inactive
+                
+                try? viewContext.save()
+                print("product updated")              
+            }
+        } else
+        {
+            currentProduct!.name = productName
+            currentProduct!.category = selectedCategory.rawValue
+            currentProduct!.warrantyUntil = warrantyDate
+            currentProduct!.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
+            currentProduct!.image = imageData
+            //0 - active, 1 - expire soon, 2 - inactive
+            _ = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
+            
+            do
+            {
+                try viewContext.save()
+                print("new product saved")
+                self.presentationMode.wrappedValue.dismiss()
+            } catch
+            {
+                print("Error while saving new product")
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
         }
-        //move back to previous view
-        self.presentationMode.wrappedValue.dismiss()
     }
     
     private func loadImageFromGalery()

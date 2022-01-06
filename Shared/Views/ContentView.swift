@@ -11,14 +11,13 @@ import CoreData
 struct ContentView: View
 {
     @Environment(\.managedObjectContext) private var viewContext
-    
-//    @State private var test: Bool = true
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Product.warrantyUntil, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Product.name, ascending: true)],
         animation: .default)
     
     private var products: FetchedResults<Product>
+    @State private var refresh: Bool = false
 
     var body: some View
     {
@@ -41,7 +40,7 @@ struct ContentView: View
 #endif
                 ToolbarItem
                 {
-                    NavigationLink(destination: AddProductView(currenctProduct: nil))
+                    NavigationLink(destination: AddOrEditProductView(currenctProduct: nil))
                     { Image(systemName: "plus") }
                 }
                 ToolbarItem(placement: .navigationBarLeading)

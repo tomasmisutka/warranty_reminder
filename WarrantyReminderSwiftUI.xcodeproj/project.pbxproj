@@ -19,8 +19,8 @@
 		1761AA742786029900A53D8B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1761AA722786029900A53D8B /* Utils.swift */; };
 		1761AA792786415E00A53D8B /* ColoredStatusText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1761AA782786415E00A53D8B /* ColoredStatusText.swift */; };
 		1761AA7A2786415E00A53D8B /* ColoredStatusText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1761AA782786415E00A53D8B /* ColoredStatusText.swift */; };
-		177DC1B1278360FF000721BC /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddProductView.swift */; };
-		177DC1B2278360FF000721BC /* AddProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddProductView.swift */; };
+		177DC1B1278360FF000721BC /* AddOrEditProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddOrEditProductView.swift */; };
+		177DC1B2278360FF000721BC /* AddOrEditProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B0278360FF000721BC /* AddOrEditProductView.swift */; };
 		177DC1B52783625C000721BC /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B42783625C000721BC /* Category.swift */; };
 		177DC1B62783625C000721BC /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B42783625C000721BC /* Category.swift */; };
 		177DC1B827836334000721BC /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177DC1B727836334000721BC /* Notification.swift */; };
@@ -49,7 +49,7 @@
 		1761AA722786029900A53D8B /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1761AA782786415E00A53D8B /* ColoredStatusText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredStatusText.swift; sourceTree = "<group>"; };
 		177DC1AE278339B1000721BC /* WarrantyReminderSwiftUI--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "WarrantyReminderSwiftUI--iOS--Info.plist"; sourceTree = "<group>"; };
-		177DC1B0278360FF000721BC /* AddProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductView.swift; sourceTree = "<group>"; };
+		177DC1B0278360FF000721BC /* AddOrEditProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditProductView.swift; sourceTree = "<group>"; };
 		177DC1B42783625C000721BC /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		177DC1B727836334000721BC /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		177DC1BB278363B7000721BC /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				17C69C59278336B500A0A466 /* ContentView.swift */,
-				177DC1B0278360FF000721BC /* AddProductView.swift */,
+				177DC1B0278360FF000721BC /* AddOrEditProductView.swift */,
 				174EC1162784698900FFD130 /* ProductDetailView.swift */,
 			);
 			path = Views;
@@ -283,7 +283,7 @@
 				177DC1B827836334000721BC /* Notification.swift in Sources */,
 				17C69C6D278336BA00A0A466 /* ContentView.swift in Sources */,
 				177DC1BC278363B7000721BC /* ImagePicker.swift in Sources */,
-				177DC1B1278360FF000721BC /* AddProductView.swift in Sources */,
+				177DC1B1278360FF000721BC /* AddOrEditProductView.swift in Sources */,
 				177DC1B52783625C000721BC /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +305,7 @@
 				177DC1B927836334000721BC /* Notification.swift in Sources */,
 				17C69C6E278336BA00A0A466 /* ContentView.swift in Sources */,
 				177DC1BD278363B7000721BC /* ImagePicker.swift in Sources */,
-				177DC1B2278360FF000721BC /* AddProductView.swift in Sources */,
+				177DC1B2278360FF000721BC /* AddOrEditProductView.swift in Sources */,
 				177DC1B62783625C000721BC /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

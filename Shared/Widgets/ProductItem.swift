@@ -11,6 +11,7 @@ import SwiftUI
 struct ProductItem: View
 {
     @State private var product: Product
+    @State static var refresh: Bool = false
     
     init(currentProduct: Product)
     {
@@ -68,16 +69,15 @@ struct ProductItem: View
                 }
             }
             Spacer()
-            let productStatus: Int = Int(product.status)
-            StatusIndicator(status: productStatus)          
+            StatusIndicator(status: Int(product.status))
         }
     }
     
     //this method return formated string according to how many days are remaining
     private func getFormattedDayString(days: Int) -> String
     {
-        if(days == 1) { return "\(days) day" }
-        else if(days > 1) { return "\(days) days" }
+        if days == 1 { return "\(days) day" }
+        else if days > 1 { return "\(days) days" }
         return "expired"
     }
     

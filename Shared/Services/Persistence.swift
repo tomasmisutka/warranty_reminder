@@ -22,7 +22,6 @@ struct PersistenceController
             newProduct.category = "SPORT"
             newProduct.status = 0 //0 - active, 1 - expire soon, 2 - expired
             newProduct.name = "Testing product"
-//            newProduct.image =
         }
         do
         {
@@ -50,5 +49,18 @@ struct PersistenceController
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+    }
+    
+    func getAllProduct() -> [Product]
+    {
+        let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
+        
+        do
+        {
+            return try container.viewContext.fetch(fetchRequest)
+        } catch
+        {
+            return []
+        }
     }
 }

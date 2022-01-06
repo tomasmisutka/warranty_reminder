@@ -13,7 +13,7 @@ struct StatusIndicator: View
 {
     @State private var status: Int
     @State private var indicatorColor: Color
-    @State private var offset: CGFloat = 0.75
+    @State private var offset: CGFloat = 1
     @State private var animate = false
     
     //status: 0 - active, 1 - expire soon, 2 - expired
@@ -39,7 +39,7 @@ struct StatusIndicator: View
         }.onAppear()
         {
             self.animate.toggle()
-            self.offset = 1.0
+            self.offset = 0.75
         }
         .animation(.linear(duration: 2.5).repeatForever(autoreverses: true), value: offset)
     }
