@@ -36,8 +36,7 @@ struct ContentView: View
             .toolbar
             {
 #if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing)
-                { EditButton() }
+                //items just for iphone or ipad
 #endif
                 ToolbarItem
                 {
@@ -79,7 +78,7 @@ struct ContentView: View
                 }
             })
         }
-        .alert("Notification are disabled. To Correct APP functionality, please enable notification in Settings", isPresented: $usingNotification)
+        .alert("Notifications are disabled. To have a full functionality, please enable notifications in Settings", isPresented: $usingNotification)
         {
             Button("OK", role: .cancel) { }
         }
