@@ -10,12 +10,12 @@ import UserNotifications
 
 struct NotificationSender
 {
-    static func scheduleNotification(product: Product, usingNotification: Bool, remaininDays: Int, daysFromExpiry: Int)
+    static func scheduleNotification(product: Product, usingNotification: Bool, daysFromExpiry: Int)
     {
         //notification content
         let content = UNMutableNotificationContent()
         content.title = "\(product.name ?? "product name not defined")"
-        content.subtitle = "This product expires in \(Utils.getFormattedDayString(days: remaininDays))"
+        content.subtitle = "This product expires in \(Utils.getFormattedDayString(days: Int(product.notificationBefore)))"
         content.sound = UNNotificationSound.default
         
         let subtractedDaysComponent = DateComponents(day: -daysFromExpiry)
@@ -28,14 +28,6 @@ struct NotificationSender
         triggerDateComponents.year = Calendar.current.dateComponents([.year], from: subtractedDate ?? Date()).year!
         triggerDateComponents.hour = 08
         triggerDateComponents.minute = 00
-        
-        //testing data works fine
-//        var triggerDateComponents = DateComponents()
-//        triggerDateComponents.day = 9
-//        triggerDateComponents.month = 1
-//        triggerDateComponents.year = 2022
-//        triggerDateComponents.hour = 13
-//        triggerDateComponents.minute = 35
             
         // Setup trigger time
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)

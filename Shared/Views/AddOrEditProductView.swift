@@ -156,7 +156,6 @@ struct AddOrEditProductView: View
         let imageData = inputImage?.jpegData(compressionQuality: 0.8)
         let currentProduct = self.product == nil ? Product(context: viewContext) : self.product
         
-        var remainingDays: Int = 0
         var daysFromExpiry: Int = 0
         
         if isEditingMode
@@ -168,7 +167,7 @@ struct AddOrEditProductView: View
                 currentProduct!.warrantyUntil = warrantyDate
                 currentProduct!.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
                 currentProduct!.image = imageData
-                remainingDays = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
+                _ = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
                 //0 - active, 1 - expire soon, 2 - inactive
                 
                 do
@@ -195,7 +194,7 @@ struct AddOrEditProductView: View
             currentProduct!.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
             currentProduct!.image = imageData
             //0 - active, 1 - expire soon, 2 - inactive
-            remainingDays = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
+            _ = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
             
             do
             {
@@ -214,7 +213,7 @@ struct AddOrEditProductView: View
 //        {
         daysFromExpiry = Int(Transformer.transformDaysFromString(notification: notifyMe))
         
-        NotificationSender.scheduleNotification(product: currentProduct!, usingNotification: usingNotification, remaininDays: remainingDays, daysFromExpiry: daysFromExpiry)
+        NotificationSender.scheduleNotification(product: currentProduct!, usingNotification: usingNotification, daysFromExpiry: daysFromExpiry)
 //        }
 //        else { showNotificationAlert = true } //alert about disabled notifications
         
