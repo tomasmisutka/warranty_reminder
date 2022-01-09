@@ -28,7 +28,7 @@ struct ContentView: View
             {
                 ForEach(products)
                 { product in
-                    NavigationLink { ProductDetailView(currentProduct: product) }
+                    NavigationLink { ProductDetailView(currentProduct: product, usingNotification: usingNotification) }
                     label: { ProductItem(currentProduct: product) }
                 }
                 .onDelete(perform: deleteItems)
@@ -40,7 +40,7 @@ struct ContentView: View
 #endif
                 ToolbarItem
                 {
-                    NavigationLink(destination: AddOrEditProductView(currenctProduct: nil))
+                    NavigationLink(destination: AddOrEditProductView(currenctProduct: nil, usingNotification: usingNotification))
                     { Image(systemName: "plus") }
                 }
                 ToolbarItem(placement: .navigationBarLeading)
@@ -78,7 +78,7 @@ struct ContentView: View
                 }
             })
         }
-        .alert("Notifications are disabled. To have a full functionality, please enable notifications in Settings", isPresented: $usingNotification)
+        .alert("Notifications are disabled. To get full functionality, please enable notifications in Settings", isPresented: $usingNotification)
         {
             Button("OK", role: .cancel) { }
         }

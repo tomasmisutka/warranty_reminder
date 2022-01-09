@@ -61,7 +61,7 @@ struct ProductItem: View
                         .font(.system(size: 15))
                     //counting how many days are remaining to warranty end
                     let remainingDays = Utils.getNumberOfDaysBetweenDates(currentProduct: product)
-                    Text(getFormattedDayString(days: remainingDays))
+                    Text(Utils.getFormattedDayString(days: remainingDays))
                         .fontWeight(remainingDays == 0 ? .bold : .regular)
                         .font(.system(size: 14))
                         .foregroundColor(remainingDays == 0 ? .red : .black)
@@ -71,14 +71,6 @@ struct ProductItem: View
             Spacer()
             StatusIndicator(status: Int(product.status))
         }
-    }
-    
-    //this method return formated string according to how many days are remaining
-    private func getFormattedDayString(days: Int) -> String
-    {
-        if days == 1 { return "\(days) day" }
-        else if days > 1 { return "\(days) days" }
-        return "expired"
     }
     
 }

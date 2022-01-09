@@ -22,8 +22,10 @@ struct AddOrEditProductView: View
     @State private var inputImage: UIImage?
     private var product: Product?
     private var isEditingMode: Bool
+    private var usingNotification: Bool
+    @State private var showNotificationAlert: Bool = false
     
-    init(currenctProduct: Product?, isEditingMode: Bool = false)
+    init(currenctProduct: Product?, isEditingMode: Bool = false, usingNotification: Bool)
     {
         //create on image string name
         let noImageName = "camera.viewfinder"
@@ -31,6 +33,7 @@ struct AddOrEditProductView: View
         //asigning values from constructor
         self.product = currenctProduct
         self.isEditingMode = isEditingMode
+        self.usingNotification = usingNotification
         
         //setting data according to mode (adding or editing)
         self._productName = State(wrappedValue: isEditingMode ? (product?.name ?? "editing product") : "")
@@ -141,6 +144,10 @@ struct AddOrEditProductView: View
             {
                 ImagePicker(image: $inputImage)
             }
+            .alert("Notifications are disabled. Notifications won't be pushed to your device. Go to Settings and enable notifications!", isPresented: $showNotificationAlert)
+            {
+                Button("OK", role: .cancel, action: returnBackToPreviousView)
+            }
         }
     }
     
@@ -148,6 +155,9 @@ struct AddOrEditProductView: View
     {
         let imageData = inputImage?.jpegData(compressionQuality: 0.8)
         let currentProduct = self.product == nil ? Product(context: viewContext) : self.product
+        
+        var remainingDays: Int = 0
+        var daysFromExpiry: Int = 0
         
         if isEditingMode
         {
@@ -158,11 +168,21 @@ struct AddOrEditProductView: View
                 currentProduct!.warrantyUntil = warrantyDate
                 currentProduct!.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
                 currentProduct!.image = imageData
-                _ = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
+                remainingDays = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
                 //0 - active, 1 - expire soon, 2 - inactive
                 
-                try? viewContext.save()
-                print("product updated")              
+                do
+                {
+                    try viewContext.save()
+                    print("product updated")
+                } catch
+                {
+                    print("Error while updating product")
+                    let nsError = error as NSError
+                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                }
+                
+                //todo - code to delete old notification
             }
         } else
         {
@@ -172,13 +192,12 @@ struct AddOrEditProductView: View
             currentProduct!.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
             currentProduct!.image = imageData
             //0 - active, 1 - expire soon, 2 - inactive
-            _ = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
+            remainingDays = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
             
             do
             {
                 try viewContext.save()
                 print("new product saved")
-                self.presentationMode.wrappedValue.dismiss()
             } catch
             {
                 print("Error while saving new product")
@@ -186,12 +205,28 @@ struct AddOrEditProductView: View
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
+        
+        //schedule new notification
+//        if usingNotification
+//        {
+        daysFromExpiry = Int(Transformer.transformDaysFromString(notification: notifyMe))
+        NotificationSender.scheduleNotification(product: currentProduct!, usingNotification: usingNotification, remaininDays: remainingDays, daysFromExpiry: daysFromExpiry)
+//        }
+//        else { showNotificationAlert = true } //alert about disabled notifications
+        
+        self.returnBackToPreviousView()
+            
     }
     
     private func loadImageFromGalery()
     {
         guard let inputImage = inputImage else { return }
         uploadedImage = Image(uiImage: inputImage)
+    }
+    
+    private func returnBackToPreviousView()
+    {
+        self.presentationMode.wrappedValue.dismiss() //return back to previous view
     }
 }
 

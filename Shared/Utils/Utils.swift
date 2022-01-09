@@ -70,4 +70,12 @@ struct Utils
         let productImageFromBinary = UIImage(data: binaryValue!)
         return Image(uiImage: productImageFromBinary!)
     }
+    
+    //this method return formated string according to how many days are remaining
+    static func getFormattedDayString(days: Int) -> String
+    {
+        if days == 1 { return "\(days) day" }
+        else if days > 1 { return "\(days) days" }
+        return "expired"
+    }
 }

@@ -11,10 +11,12 @@ struct ProductDetailView: View
 {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var product: Product
+    private var usingNotification: Bool
     
-    init(currentProduct: Product)
+    init(currentProduct: Product, usingNotification: Bool)
     {
         self.product = currentProduct
+        self.usingNotification = usingNotification
     }
     
     var body: some View
@@ -88,9 +90,9 @@ struct ProductDetailView: View
             {
                 ToolbarItem(placement: .navigationBarTrailing)
                 {
-                    NavigationLink(destination: AddOrEditProductView(currenctProduct: product, isEditingMode: true))
+                    NavigationLink(destination: AddOrEditProductView(currenctProduct: product, isEditingMode: true, usingNotification: usingNotification))
                     {
-                        Image(systemName: "slider.horizontal.3").resizable().frame(width: 20, height: 20)
+                        Image(systemName: "slider.horizontal.3").imageScale(.large)
                     }
                 }
             }

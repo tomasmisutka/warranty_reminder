@@ -39,6 +39,8 @@
 		17C69C70278336BA00A0A466 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C69C5A278336B500A0A466 /* Persistence.swift */; };
 		17C69C71278336BA00A0A466 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17C69C5B278336BA00A0A466 /* Assets.xcassets */; };
 		17C69C72278336BA00A0A466 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17C69C5B278336BA00A0A466 /* Assets.xcassets */; };
+		17C9F155278ADB04001BF306 /* NotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C9F154278ADB04001BF306 /* NotificationSender.swift */; };
+		17C9F156278ADB04001BF306 /* NotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17C9F154278ADB04001BF306 /* NotificationSender.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,7 @@
 		17C69C60278336BA00A0A466 /* WarrantyReminderSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyReminderSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C69C66278336BA00A0A466 /* WarrantyReminderSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyReminderSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17C69C68278336BA00A0A466 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		17C9F154278ADB04001BF306 /* NotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				17C69C5A278336B500A0A466 /* Persistence.swift */,
+				17C9F154278ADB04001BF306 /* NotificationSender.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -281,6 +285,7 @@
 				17C69C69278336BA00A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld in Sources */,
 				1761AA792786415E00A53D8B /* ColoredStatusText.swift in Sources */,
 				177DC1B827836334000721BC /* Notification.swift in Sources */,
+				17C9F155278ADB04001BF306 /* NotificationSender.swift in Sources */,
 				17C69C6D278336BA00A0A466 /* ContentView.swift in Sources */,
 				177DC1BC278363B7000721BC /* ImagePicker.swift in Sources */,
 				177DC1B1278360FF000721BC /* AddOrEditProductView.swift in Sources */,
@@ -303,6 +308,7 @@
 				17C69C6A278336BA00A0A466 /* WarrantyReminderSwiftUI.xcdatamodeld in Sources */,
 				1761AA7A2786415E00A53D8B /* ColoredStatusText.swift in Sources */,
 				177DC1B927836334000721BC /* Notification.swift in Sources */,
+				17C9F156278ADB04001BF306 /* NotificationSender.swift in Sources */,
 				17C69C6E278336BA00A0A466 /* ContentView.swift in Sources */,
 				177DC1BD278363B7000721BC /* ImagePicker.swift in Sources */,
 				177DC1B2278360FF000721BC /* AddOrEditProductView.swift in Sources */,
