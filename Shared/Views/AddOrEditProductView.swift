@@ -20,10 +20,10 @@ struct AddOrEditProductView: View
     @State private var showImagePicker = false
     @State private var uploadedImage: Image?
     @State private var inputImage: UIImage?
+    @State private var showNotificationAlert: Bool = false
     private var product: Product?
     private var isEditingMode: Bool
     private var usingNotification: Bool
-    @State private var showNotificationAlert: Bool = false
     
     init(currenctProduct: Product?, isEditingMode: Bool = false, usingNotification: Bool)
     {
@@ -182,10 +182,13 @@ struct AddOrEditProductView: View
                     fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 }
                 
-                //todo - code to delete old notification
+                //code to delete notification before update
+                let productID = currentProduct!.id!.uuidString
+                NotificationSender.deleteScheduledNotification(productID: productID)
             }
         } else
         {
+            currentProduct!.id = UUID()
             currentProduct!.name = productName
             currentProduct!.category = selectedCategory.rawValue
             currentProduct!.warrantyUntil = warrantyDate
@@ -210,12 +213,12 @@ struct AddOrEditProductView: View
 //        if usingNotification
 //        {
         daysFromExpiry = Int(Transformer.transformDaysFromString(notification: notifyMe))
+        
         NotificationSender.scheduleNotification(product: currentProduct!, usingNotification: usingNotification, remaininDays: remainingDays, daysFromExpiry: daysFromExpiry)
 //        }
 //        else { showNotificationAlert = true } //alert about disabled notifications
         
-        self.returnBackToPreviousView()
-            
+        self.returnBackToPreviousView()            
     }
     
     private func loadImageFromGalery()

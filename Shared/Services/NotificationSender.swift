@@ -40,9 +40,18 @@ struct NotificationSender
         // Setup trigger time
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
         
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: product.id!.uuidString, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request)
         print("notification prepared to time: \(String(describing: Calendar.current.date(from: triggerDateComponents)))")
+    }
+    
+    static func deleteScheduledNotification(productID: String)
+    {
+        let center = UNUserNotificationCenter.current()
+        //delete already delived notification
+        center.removeDeliveredNotifications(withIdentifiers: [productID])
+        //delete pending notificatoin
+        center.removePendingNotificationRequests(withIdentifiers: [productID])
     }
 }
