@@ -11,8 +11,7 @@ import AVFoundation
 
 struct StatusIndicator: View
 {
-    @State private var status: Int
-    @State private var indicatorColor: Color
+    private var status: Int
     @State private var offset: CGFloat = 1
     @State private var animate = false
     
@@ -20,13 +19,11 @@ struct StatusIndicator: View
     init(status: Int)
     {
         self.status = status
-        _indicatorColor = State(initialValue: .green)
-        //just workarround to set correct status color to keep correct color after return from child view
-        _indicatorColor = State(initialValue: getColorAccordingToStatus())
     }
     
     var body: some View
     {
+        let indicatorColor = getColorAccordingToStatus()
         ZStack
         {
             Circle().fill(indicatorColor.opacity(0.25)).frame(width: 30, height: 30).scaleEffect(self.animate ? 1 : 0)

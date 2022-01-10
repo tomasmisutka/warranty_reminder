@@ -10,7 +10,7 @@ import UserNotifications
 
 struct NotificationSender
 {
-    static func scheduleNotification(product: Product, usingNotification: Bool, daysFromExpiry: Int)
+    static func scheduleNotification(product: Product, daysFromExpiry: Int)
     {
         //notification content
         let content = UNMutableNotificationContent()

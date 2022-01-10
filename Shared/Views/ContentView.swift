@@ -18,7 +18,9 @@ struct ContentView: View
         animation: .default)
     
     private var products: FetchedResults<Product>
-    @State private var usingNotification: Bool = false
+    @State private var showNotificationAlert: Bool = false
+    @State private var refresh: Bool = false
+    @StateObject private var notificationManager = NotificationManager()
 
     var body: some View
     {
@@ -28,8 +30,8 @@ struct ContentView: View
             {
                 ForEach(products)
                 { product in
-                    NavigationLink { ProductDetailView(currentProduct: product, usingNotification: usingNotification) }
-                    label: { ProductItem(currentProduct: product) }
+                    NavigationLink { ProductDetailView(currentProduct: product, refresh: $refresh, notificationManager: notificationManager) }
+                label: { ProductItem(currentProduct: product, refresh: $refresh) }
                 }
                 .onDelete(perform: deleteItems)
             }
@@ -40,48 +42,39 @@ struct ContentView: View
 #endif
                 ToolbarItem
                 {
-                    NavigationLink(destination: AddOrEditProductView(currenctProduct: nil, usingNotification: usingNotification))
+                    NavigationLink(destination: AddOrEditProductView(currentProduct: Binding.constant(nil), refresh: Binding.constant(false), notificationManager: notificationManager))
                     { Image(systemName: "plus") }
                 }
                 ToolbarItem(placement: .navigationBarLeading)
                 { AppIcon() }
             }
         }
-        .onAppear()
-        {
-            let current = UNUserNotificationCenter.current()
-            current.getNotificationSettings(completionHandler:
-            { permission in
-                switch permission.authorizationStatus
-                {
-                    case .authorized:
-                        print("User granted permission for notification")
-                        usingNotification = false
-                    case .denied:
-                        print("User denied notification permission")
-                        usingNotification = true
-                    case .notDetermined:
-                        print("Notification permission haven't been asked yet")
-                        usingNotification = false
-                        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                        if success { print("All set!") }
-                        else if let error = error { print(error.localizedDescription) }
-                    }
-                    case .provisional:
-                        print("The application is authorized to post non-interruptive user notifications.")
-                        usingNotification = true
-                    case .ephemeral:
-                        print("The application is temporarily authorized to post notifications. Only available to app clips.")
-                    @unknown default:
-                        print("Unknow Status")
-                        usingNotification = false
-                }
+        .onAppear(perform:
+            {
+            notificationManager.reloadAuthorizationStatus()
             })
+        .onChange(of: notificationManager.authorizationStatus)
+        { authorizationStatus in
+            switch authorizationStatus
+            {
+            case .notDetermined:
+                notificationManager.requestAuthorization()
+                break
+            case .authorized:
+                notificationManager.requestAuthorization()
+                break
+            case .denied:
+                showNotificationAlert.toggle()
+                break
+            default:
+                break
+            }
         }
-        .alert("Notifications are disabled. To get full functionality, please enable notifications in Settings", isPresented: $usingNotification)
+        .alert("Notifications are disabled. To get full functionality, please enable notifications in Settings", isPresented: $showNotificationAlert)
         {
             Button("OK", role: .cancel) { }
         }
+        .accentColor(refresh ? .blue : .blue)
     }
 
     private func deleteItems(offsets: IndexSet)

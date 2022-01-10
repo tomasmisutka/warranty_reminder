@@ -11,11 +11,12 @@ import SwiftUI
 struct ProductItem: View
 {
     @State private var product: Product
-    @State static var refresh: Bool = false
+    @Binding var refresh: Bool
     
-    init(currentProduct: Product)
+    init(currentProduct: Product, refresh: Binding<Bool>)
     {
         self.product = currentProduct
+        self._refresh = refresh
     }
         
     var body: some View
@@ -70,7 +71,7 @@ struct ProductItem: View
             }
             Spacer()
             StatusIndicator(status: Int(product.status))
-        }
+        }.accentColor(refresh ? .blue : .blue)
     }
     
 }

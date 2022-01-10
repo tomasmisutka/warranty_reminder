@@ -10,13 +10,15 @@ import SwiftUI
 struct ProductDetailView: View
 {
     @Environment(\.managedObjectContext) private var viewContext
-    @State private var product: Product
-    private var usingNotification: Bool
+    @ObservedObject var notificationManager: NotificationManager
+    @State private var product: Product?
+    @Binding private var refresh: Bool
     
-    init(currentProduct: Product, usingNotification: Bool)
+    init(currentProduct: Product, refresh: Binding<Bool>, notificationManager: NotificationManager)
     {
         self.product = currentProduct
-        self.usingNotification = usingNotification
+        self._refresh = refresh
+        self.notificationManager = notificationManager
     }
     
     var body: some View
@@ -26,7 +28,7 @@ struct ProductDetailView: View
             VStack(alignment: .leading, spacing: 20)
             {
                 //image loaded from persistence
-                if let productImage = UIImage(data: product.image!)
+                if let productImage = UIImage(data: product!.image!)
                 {
                     Image(uiImage: productImage)
                         .resizable()
@@ -36,13 +38,13 @@ struct ProductDetailView: View
                 //name of the product
                 HStack
                 {
-                    Text(product.name!)
+                    Text(product!.name!)
                         .fontWeight(.bold)
                         .font(.title)
                     Spacer()
                 }
                 //text with category info
-                Text(product.category ?? "Category")
+                Text(product!.category ?? "Category")
                     .foregroundColor(.blue)
                     .fontWeight(.heavy)
                     .font(.title2)
@@ -53,7 +55,7 @@ struct ProductDetailView: View
                         .resizable()
                         .foregroundColor(.red)
                         .frame(width: 20, height: 20)
-                    Text("\(product.notificationBefore) Day(s) from expiry")
+                    Text("\(product!.notificationBefore) Day(s) from expiry")
                         .foregroundColor(.gray)
                         .font(.system(size: 18))
                 }
@@ -61,7 +63,7 @@ struct ProductDetailView: View
                 HStack
                 {
                     Text("Expiry date:")
-                    Text(Utils.getFormattedDateAsString(warrantyDate: product.warrantyUntil ?? Date()))
+                    Text(Utils.getFormattedDateAsString(warrantyDate: product!.warrantyUntil ?? Date()))
                         .foregroundColor(.gray)
                         .font(.system(size: 18))
                 }
@@ -69,7 +71,7 @@ struct ProductDetailView: View
                 HStack
                 {
                     Text("Remaining:")
-                    let days = Utils.getNumberOfDaysBetweenDates(currentProduct: product, verifyStatus: false)
+                    let days = Utils.getNumberOfDaysBetweenDates(currentProduct: product!, verifyStatus: false)
                     Text("\(days) Day(s)")
                         .foregroundColor(.gray)
                         .font(.system(size: 18))
@@ -78,7 +80,7 @@ struct ProductDetailView: View
                 HStack
                 {
                     Spacer()
-                    ColoredStatusText(status: Int(product.status))
+                    ColoredStatusText(status: Int(product!.status))
                     Spacer()
                 }
                 //move everything to top
@@ -90,13 +92,13 @@ struct ProductDetailView: View
             {
                 ToolbarItem(placement: .navigationBarTrailing)
                 {
-                    NavigationLink(destination: AddOrEditProductView(currenctProduct: product, isEditingMode: true, usingNotification: usingNotification))
+                    NavigationLink(destination: AddOrEditProductView(currentProduct: self.$product, isEditingMode: true, refresh: $refresh, notificationManager: notificationManager))
                     {
                         Image(systemName: "slider.horizontal.3").imageScale(.large)
                     }
                 }
             }
-        }
+        }.accentColor(refresh ? .blue : .blue)
     }
 }
 

@@ -13,6 +13,7 @@ struct AddOrEditProductView: View
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.managedObjectContext) private var viewContext
     
+    @ObservedObject var notificationManager: NotificationManager
     @State private var productName: String
     @State private var selectedCategory: ProductCategory
     @State private var warrantyDate: Date
@@ -21,30 +22,31 @@ struct AddOrEditProductView: View
     @State private var uploadedImage: Image?
     @State private var inputImage: UIImage?
     @State private var showNotificationAlert: Bool = false
-    private var product: Product?
+    @Binding var product: Product?
+    @Binding var refresh: Bool
     private var isEditingMode: Bool
-    private var usingNotification: Bool
     
-    init(currenctProduct: Product?, isEditingMode: Bool = false, usingNotification: Bool)
+    init(currentProduct: Binding<Product?>, isEditingMode: Bool = false, refresh: Binding<Bool>, notificationManager: NotificationManager)
     {
         //create on image string name
         let noImageName = "camera.viewfinder"
         
         //asigning values from constructor
-        self.product = currenctProduct
+        self._product = currentProduct
         self.isEditingMode = isEditingMode
-        self.usingNotification = usingNotification
+        self._refresh = refresh
+        self.notificationManager = notificationManager
         
         //setting data according to mode (adding or editing)
-        self._productName = State(wrappedValue: isEditingMode ? (product?.name ?? "editing product") : "")
+        self._productName = State(wrappedValue: isEditingMode ? currentProduct.wrappedValue!.name! : "")
         
-        self._selectedCategory = State(wrappedValue: isEditingMode ? (Utils.categoryFromString(valueString: product?.category ?? "HOME")) : .home)
+        self._selectedCategory = State(wrappedValue: isEditingMode ? (Utils.categoryFromString(valueString: currentProduct.wrappedValue!.category!)) : .home)
         
-        self._warrantyDate = State(wrappedValue: isEditingMode ? (product?.warrantyUntil ?? Date()) : Date())
+        self._warrantyDate = State(wrappedValue: isEditingMode ? currentProduct.wrappedValue!.warrantyUntil! : Date())
         
-        self._notifyMe = State(wrappedValue: isEditingMode ? (Utils.notificationFromString(valueInt: Int(product?.notificationBefore ?? 1))) : .day_before)
+        self._notifyMe = State(wrappedValue: isEditingMode ? (Utils.notificationFromString(valueInt: Int(currentProduct.wrappedValue!.notificationBefore))) : .day_before)
         
-        self._uploadedImage = State(wrappedValue: isEditingMode ? Utils.getImageFromBinary(binaryValue: product?.image! ?? nil): Image(systemName: noImageName))
+        self._uploadedImage = State(wrappedValue: isEditingMode ? Utils.getImageFromBinary(binaryValue: currentProduct.wrappedValue!.image!): Image(systemName: noImageName))
         
         //initiate inputImage to default image
         self._inputImage = State(wrappedValue: isEditingMode ? UIImage(data: product!.image!) : UIImage(systemName: noImageName))
@@ -156,6 +158,9 @@ struct AddOrEditProductView: View
         let imageData = inputImage?.jpegData(compressionQuality: 0.8)
         let currentProduct = self.product == nil ? Product(context: viewContext) : self.product
         
+        notificationManager.requestAuthorization()
+        notificationManager.reloadAuthorizationStatus()
+        
         var daysFromExpiry: Int = 0
         
         if isEditingMode
@@ -167,7 +172,7 @@ struct AddOrEditProductView: View
                 currentProduct!.warrantyUntil = warrantyDate
                 currentProduct!.notificationBefore = Int16(Transformer.transformDaysFromString(notification: notifyMe))
                 currentProduct!.image = imageData
-                _ = Utils.getNumberOfDaysBetweenDates(currentProduct: currentProduct!, verifyStatus: true)
+                _ = Utils.getNumberOfDaysBetweenDates(currentProduct: self.product!, verifyStatus: true)
                 //0 - active, 1 - expire soon, 2 - inactive
                 
                 do
@@ -208,16 +213,21 @@ struct AddOrEditProductView: View
             }
         }
         
+        refresh.toggle() //refresh all content
         //schedule new notification
-//        if usingNotification
-//        {
-        daysFromExpiry = Int(Transformer.transformDaysFromString(notification: notifyMe))
-        
-        NotificationSender.scheduleNotification(product: currentProduct!, usingNotification: usingNotification, daysFromExpiry: daysFromExpiry)
-//        }
-//        else { showNotificationAlert = true } //alert about disabled notifications
-        
-        self.returnBackToPreviousView()            
+        if notificationManager.authorizationStatus == .authorized
+        {
+            daysFromExpiry = Int(Transformer.transformDaysFromString(notification: notifyMe))
+            
+            NotificationSender.scheduleNotification(product: currentProduct!, daysFromExpiry: daysFromExpiry)
+            print("yes, notification was scheduled successful")
+        }
+        else
+        {
+            showNotificationAlert = true
+            print("NOOO, the notification was not scheduled!")
+        } //alert about disabled notifications
+        if notificationManager.authorizationStatus == .authorized { self.returnBackToPreviousView() }
     }
     
     private func loadImageFromGalery()
