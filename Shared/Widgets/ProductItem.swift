@@ -70,7 +70,7 @@ struct ProductItem: View
                 }
             }
             Spacer()
-//            StatusIndicator(status: Int(product.status))
+            StatusIndicator(status: Int(product.status))
         }.accentColor(refresh ? .blue : .blue)
     }
     
