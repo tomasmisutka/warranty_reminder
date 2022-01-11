@@ -1,5 +1,5 @@
 # Warranty Reminder
-## seminar work for AK9PT on UTB
+### seminar work for AK9PT on UTB
 
 ---
 
@@ -11,4 +11,9 @@ On these products you can click on and move to the product detail, where is also
 ---
 
 When you are creating product is checked, if notifications are enabled.  
-If **YES**, notification will be scheduled **x** (days are set while creating or updating product) before warranty expires at 8:00 AM.
+If **YES**, notification will be scheduled **x** (days are set while creating or updating product) before warranty expires at 8:00 AM.  
+Otherwise you will be **inform** by alert window that notifications are **disabled**.
+
+---
+
+## Author: Tomas Misutka
