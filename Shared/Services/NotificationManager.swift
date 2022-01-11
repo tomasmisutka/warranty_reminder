@@ -28,7 +28,8 @@ final class NotificationManager: ObservableObject
     {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])
         { isGranted, _ in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async
+            {
                 self.authorizationStatus = isGranted ? .authorized : .denied
             }
         }

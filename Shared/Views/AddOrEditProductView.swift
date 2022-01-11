@@ -158,7 +158,6 @@ struct AddOrEditProductView: View
         let imageData = inputImage?.jpegData(compressionQuality: 0.8)
         let currentProduct = self.product == nil ? Product(context: viewContext) : self.product
         
-        notificationManager.requestAuthorization()
         notificationManager.reloadAuthorizationStatus()
         
         var daysFromExpiry: Int = 0
@@ -213,7 +212,6 @@ struct AddOrEditProductView: View
             }
         }
         
-        refresh.toggle() //refresh all content
         //schedule new notification
         if notificationManager.authorizationStatus == .authorized
         {
@@ -227,7 +225,9 @@ struct AddOrEditProductView: View
             showNotificationAlert = true
             print("NOOO, the notification was not scheduled!")
         } //alert about disabled notifications
+        notificationManager.reloadAuthorizationStatus()
         if notificationManager.authorizationStatus == .authorized { self.returnBackToPreviousView() }
+        refresh.toggle() //refresh the all content of APP
     }
     
     private func loadImageFromGalery()

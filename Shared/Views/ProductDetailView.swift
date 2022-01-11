@@ -33,7 +33,7 @@ struct ProductDetailView: View
                     Image(uiImage: productImage)
                         .resizable()
                         .cornerRadius(12)
-                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: 350)
                 }
                 //name of the product
                 HStack
