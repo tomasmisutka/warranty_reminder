@@ -30,8 +30,11 @@ struct ContentView: View
             {
                 ForEach(products)
                 { product in
-                    NavigationLink { ProductDetailView(currentProduct: product, refresh: $refresh, notificationManager: notificationManager) }
-                label: { ProductItem(currentProduct: product, refresh: $refresh) }
+                    withAnimation
+                    {
+                        NavigationLink { ProductDetailView(currentProduct: product, refresh: $refresh, notificationManager: notificationManager) }
+                        label: { ProductItem(currentProduct: product, refresh: $refresh) }
+                    }
                 }
                 .onDelete(perform: deleteItems)
             }

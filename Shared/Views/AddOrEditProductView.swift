@@ -63,7 +63,7 @@ struct AddOrEditProductView: View
                 {
                     Button(action: {
                         //code to move to previous view
-                        self.presentationMode.wrappedValue.dismiss()
+                        self.returnBackToPreviousView()
                         })
                     {
                         Image(systemName: "chevron.backward")
@@ -238,7 +238,11 @@ struct AddOrEditProductView: View
     
     private func returnBackToPreviousView()
     {
-        self.presentationMode.wrappedValue.dismiss() //return back to previous view
+        withAnimation
+        {
+            self.presentationMode.wrappedValue.dismiss() //return back to previous view
+        }
+        
     }
 }
 
